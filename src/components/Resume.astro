@@ -1,0 +1,57 @@
+---
+// Both resume pages share this layout; their content is resume.json and
+// artistResume.json.
+import Base from "../layouts/Base.astro";
+import Buttons from "./Buttons.astro";
+import { rich, paragraphs } from "../content/rich";
+
+interface Entry {
+  group?: string;
+  title?: string;
+  href?: string;
+  meta?: string;
+  text?: string;
+  bullets?: string[];
+}
+interface Props {
+  data: { title: string; buttons: { label: string; href: string }[]; sections: { heading: string; entries: Entry[] }[] };
+  description: string;
+}
+const { data, description } = Astro.props;
+---
+
+<Base title={data.title} description={description}>
+  <header class="page-title">
+    <h1>{data.title}</h1>
+    <Buttons buttons={data.buttons} />
+  </header>
+
+  {
+    data.sections.map((section, s) => (
+      <section class="cv" data-shift={s > 0 ? "" : undefined}>
+        <h2>{section.heading}</h2>
+        <div>
+          {section.entries.map((entry, i) => (
+            <>
+              {entry.group && entry.group !== section.entries[i - 1]?.group && <p class="eyebrow">{entry.group}</p>}
+              <div class="entry">
+                {entry.title && <h3>{entry.href ? <a href={entry.href}>{entry.title} →</a> : entry.title}</h3>}
+                {entry.meta && <p class="meta" set:html={rich(entry.meta)} />}
+                {paragraphs(entry.text).map((p) => (
+                  <p set:html={p} />
+                ))}
+                {entry.bullets && entry.bullets.length > 0 && (
+                  <ul>
+                    {entry.bullets.map((b) => (
+                      <li set:html={rich(b)} />
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</Base>

@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../content/site";
+import shop from "../content/shop.json";
+---
+
+<Base title={shop.title} description="Marge Z Shop — prints, merch and other things made by Margaret Zheng.">
+  <header class="page-title">
+    <h1>{shop.title}</h1>
+  </header>
+
+  <section class="band">
+    {
+      shop.url ? (
+        <>
+          <p class="big">{shop.openLead}</p>
+          <p>
+            <a class="btn" href={shop.url}>
+              {shop.openButton} →
+            </a>
+          </p>
+        </>
+      ) : (
+        <>
+          <h2>{shop.soonHeading}</h2>
+          <p class="big">{shop.soonLead}</p>
+          <p>{shop.soonText}</p>
+          <p>
+            <a class="btn" href="https://www.instagram.com/marge_z_art/">@marge_z_art →</a>
+            <a class="btn" href={`mailto:${site.email}`}>{site.email} →</a>
+          </p>
+        </>
+      )
+    }
+  </section>
+</Base>

@@ -1,0 +1,9 @@
+---
+interface Props {
+  buttons?: { label: string; href: string }[];
+}
+const { buttons = [] } = Astro.props;
+const shown = buttons.filter((b) => b.label && b.href);
+---
+
+{shown.length > 0 && <p>{shown.map((b) => <a class="btn" href={b.href}>{b.label} →</a>)}</p>}

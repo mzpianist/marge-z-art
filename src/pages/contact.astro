@@ -1,0 +1,40 @@
+---
+import Base from "../layouts/Base.astro";
+import contact from "../content/contact.json";
+---
+
+<Base title={contact.title} description="Get in touch with Margaret Zheng.">
+  <header class="page-title">
+    <h1>{contact.title}</h1>
+  </header>
+
+  <ul class="rows">
+    {
+      contact.rows.map((row) => (
+        <li>
+          <a href={row.href}>
+            <span>
+              <small>{row.label}</small>
+              <br />
+              {row.text}
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .rows a {
+    font-size: clamp(1.5rem, 6vw, 5.5rem);
+    padding-block: 0.35em;
+    text-transform: none;
+    overflow-wrap: anywhere;
+  }
+  .rows small {
+    font-size: 0.3em;
+    text-transform: uppercase;
+  }
+</style>

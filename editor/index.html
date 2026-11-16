@@ -1,0 +1,1263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marge Z Editor</title>
+    <link rel="icon" href="/public/favicon.png" />
+    <style>
+      /* Same look as the site: one solid colour, one contrasting ink, heavy type. */
+      @font-face {
+        font-family: "Bricolage Grotesque Variable";
+        src: url("/font.woff2") format("woff2-variations");
+        font-weight: 200 800;
+        font-display: swap;
+      }
+      :root {
+        --bg: #ffd60a;
+        --fg: #2b00b5;
+        --paper: #fffdf3;
+        --bad: #c8001f;
+        --line: 3px;
+        --font: "Bricolage Grotesque Variable", "Helvetica Neue", Arial, "PingFang SC", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+        color: var(--fg);
+      }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.45;
+      }
+      button,
+      input,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      a {
+        color: inherit;
+      }
+      h1,
+      h2 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .top {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.7rem 1.5rem;
+        background: var(--bg);
+        border-bottom: var(--line) solid var(--fg);
+      }
+      .top h1 {
+        font-size: 1.5rem;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .top img {
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        border: var(--line) solid var(--fg);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 15rem minmax(0, 1fr);
+        min-height: calc(100vh - 4rem);
+      }
+      .sidebar {
+        border-right: var(--line) solid var(--fg);
+        padding: 1rem 0;
+        position: sticky;
+        top: 3.9rem;
+        align-self: start;
+        max-height: calc(100vh - 3.9rem);
+        overflow: auto;
+      }
+      .sidebar p {
+        margin: 1rem 1.5rem 0.3rem;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.75;
+      }
+      .sidebar button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: 0;
+        padding: 0.4rem 1.5rem;
+        font-weight: 800;
+        font-size: 1.15rem;
+        letter-spacing: -0.01em;
+        cursor: pointer;
+      }
+      .sidebar button:hover,
+      .sidebar button[aria-current="true"] {
+        background: var(--fg);
+        color: var(--bg);
+      }
+      @media (max-width: 800px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          max-height: none;
+          border-right: 0;
+          border-bottom: var(--line) solid var(--fg);
+        }
+      }
+
+      main {
+        padding: 2rem 1.5rem 7rem;
+        max-width: 60rem;
+      }
+      .page-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: 0.8rem 1.5rem;
+        margin-bottom: 0.6rem;
+      }
+      .page-head h2 {
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+        margin-right: auto;
+      }
+      .file {
+        font-size: 0.8rem;
+        opacity: 0.75;
+        margin: 0 0 1.2rem;
+      }
+      .tip {
+        border: var(--line) dashed var(--fg);
+        padding: 0.6rem 0.9rem;
+        margin: 0 0 1.6rem;
+        font-size: 0.9rem;
+      }
+      .tip code {
+        font-weight: 800;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 0.85em;
+      }
+
+      .btn {
+        display: inline-block;
+        background: var(--bg);
+        border: var(--line) solid var(--fg);
+        border-radius: 999px;
+        padding: 0.35em 1em;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .btn:hover:not(:disabled),
+      .btn.solid {
+        background: var(--fg);
+        color: var(--bg);
+      }
+      .btn.solid:hover:not(:disabled) {
+        background: var(--bg);
+        color: var(--fg);
+      }
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .btn.small {
+        font-size: 0.72rem;
+        padding: 0.2em 0.7em;
+        border-width: 2px;
+      }
+      .btn.danger:hover {
+        background: var(--bad);
+        border-color: var(--bad);
+        color: #fff;
+      }
+
+      .field {
+        margin-bottom: 1.2rem;
+      }
+      .field > label,
+      .field > .label {
+        display: block;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.78rem;
+        margin-bottom: 0.3rem;
+      }
+      .help {
+        font-size: 0.85rem;
+        margin: 0.3rem 0 0;
+        opacity: 0.85;
+      }
+      input[type="text"],
+      input[type="url"],
+      textarea {
+        display: block;
+        width: 100%;
+        background: var(--paper);
+        border: 2px solid var(--fg);
+        border-radius: 0;
+        padding: 0.5rem 0.65rem;
+        color: #17003f;
+        font-weight: 500;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 2.6rem;
+        line-height: 1.45;
+      }
+      input:focus-visible,
+      textarea:focus-visible,
+      button:focus-visible,
+      summary:focus-visible {
+        outline: var(--line) dashed var(--fg);
+        outline-offset: 3px;
+      }
+
+      .group {
+        border-left: var(--line) solid var(--fg);
+        padding-left: 1rem;
+      }
+      .list {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.6rem;
+      }
+      details.item {
+        border: var(--line) solid var(--fg);
+        background: color-mix(in srgb, var(--bg) 82%, white);
+      }
+      details.item > summary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.7rem;
+        cursor: pointer;
+        font-weight: 800;
+        list-style: none;
+      }
+      details.item > summary::-webkit-details-marker {
+        display: none;
+      }
+      details.item > summary::before {
+        content: "+";
+        font-size: 1.3rem;
+        line-height: 1;
+        width: 1rem;
+      }
+      details.item[open] > summary::before {
+        content: "–";
+      }
+      details.item[open] > summary {
+        border-bottom: var(--line) solid var(--fg);
+      }
+      details.item .name {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      details.item > .body {
+        padding: 1rem 0.9rem 0.2rem;
+      }
+      .row {
+        display: flex;
+        gap: 0.4rem;
+        align-items: start;
+      }
+      .row > :first-child {
+        flex: 1;
+      }
+      .add {
+        margin-top: 0.6rem;
+      }
+
+      .photo {
+        display: flex;
+        gap: 0.9rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .photo img,
+      .photo .empty {
+        width: 7.5rem;
+        height: 7.5rem;
+        object-fit: cover;
+        border: var(--line) solid var(--fg);
+        background: var(--paper);
+      }
+      .photo .empty {
+        display: grid;
+        place-items: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      .photo .name {
+        font-size: 0.85rem;
+        margin: 0 0 0.4rem;
+        word-break: break-all;
+      }
+
+      .colors {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+      }
+      .color {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .color input[type="color"] {
+        width: 3rem;
+        height: 2.4rem;
+        padding: 0;
+        border: 2px solid var(--fg);
+        background: none;
+        cursor: pointer;
+      }
+      .color input[type="text"] {
+        width: 6.5rem;
+        font-family: ui-monospace, Menlo, monospace;
+      }
+      .swatch {
+        padding: 0.9rem 1.1rem;
+        font-weight: 800;
+        font-size: 1.6rem;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        line-height: 1;
+        border: 2px solid #17003f;
+        margin-bottom: 1rem;
+      }
+      .swatch small {
+        display: block;
+        margin-top: 0.4rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .chip {
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 2px solid var(--fg);
+        display: grid;
+        place-items: center;
+        font-size: 0.7rem;
+        font-weight: 800;
+        flex: none;
+      }
+
+      .savebar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.7rem 1.5rem;
+        background: var(--fg);
+        color: var(--bg);
+        transform: translateY(110%);
+        transition: transform 0.18s ease;
+      }
+      .savebar.on {
+        transform: none;
+      }
+      .savebar span {
+        margin-right: auto;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .savebar .btn {
+        border-color: var(--bg);
+        background: var(--fg);
+        color: var(--bg);
+      }
+      .savebar .btn.solid,
+      .savebar .btn:hover {
+        background: var(--bg);
+        color: var(--fg);
+      }
+
+      .toast {
+        position: fixed;
+        right: 1.5rem;
+        bottom: 5rem;
+        z-index: 40;
+        max-width: 26rem;
+        background: var(--fg);
+        color: var(--bg);
+        padding: 0.8rem 1rem;
+        font-weight: 700;
+        box-shadow: 6px 6px 0 #17003f;
+      }
+      .toast.bad {
+        background: var(--bad);
+        color: #fff;
+      }
+      .toast a {
+        margin-left: 0.5rem;
+      }
+
+      dialog {
+        border: var(--line) solid var(--fg);
+        background: var(--bg);
+        color: var(--fg);
+        padding: 1.5rem;
+        width: min(34rem, 92vw);
+        box-shadow: 10px 10px 0 var(--fg);
+      }
+      dialog::backdrop {
+        background: rgb(23 0 63 / 0.55);
+      }
+      dialog h2 {
+        font-size: 2.2rem;
+        margin-bottom: 0.8rem;
+      }
+      dialog ul {
+        padding-left: 1.2rem;
+      }
+      dialog .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.6rem;
+        margin-top: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <h1><img src="/public/favicon.png" alt="" />Marge Z Editor</h1>
+      <a class="btn" id="site-link" target="_blank" rel="noopener">View site ↗</a>
+      <button class="btn solid" id="publish-btn" type="button">Publish…</button>
+    </header>
+    <div class="layout">
+      <nav class="sidebar" id="nav" aria-label="What to edit"></nav>
+      <main id="main"><p>Loading…</p></main>
+    </div>
+    <div class="savebar" id="savebar">
+      <span>Unsaved changes</span>
+      <button class="btn" id="discard-btn" type="button">Discard</button>
+      <button class="btn solid" id="save-btn" type="button">Save</button>
+    </div>
+    <dialog id="dialog"></dialog>
+
+    <script>
+      // ---------- tiny helpers ----------
+
+      // h("div", { class: "x", onclick: fn }, child, "text", ...)
+      function h(tag, props = {}, ...children) {
+        const el = document.createElement(tag);
+        for (const [k, v] of Object.entries(props ?? {})) {
+          if (v == null || v === false) continue;
+          if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+          else if (k in el && k !== "list") el[k] = v;
+          else el.setAttribute(k, v === true ? "" : v);
+        }
+        for (const c of children.flat()) if (c != null && c !== false) el.append(c);
+        return el;
+      }
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+      const $ = (id) => document.getElementById(id);
+
+      // ---------- what can be edited ----------
+      // One entry per data file in src/content/. `fields` describes the form:
+      //   text / long (multi-line) / url / color / image
+      //   strings — a list of lines
+      //   list    — a list of entries, each with its own `fields`
+      //   group   — a few fields that belong together
+
+      const text = (key, label, extra) => ({ key, label, type: "text", ...extra });
+      const long = (key, label, extra) => ({ key, label, type: "long", ...extra });
+      const url = (key, label, extra) => ({ key, label, type: "url", ...extra });
+      const strings = (key, label, extra) => ({ key, label, type: "strings", ...extra });
+      const list = (key, label, one, fields, extra) => ({ key, label, type: "list", one, fields, ...extra });
+      const image = (key, label, extra) => ({ key, label, type: "image", ...extra });
+
+      const LINK_HELP = "A page on this site (like /shop) or a full address starting with https://";
+      const buttons = (label = "Buttons") =>
+        list("buttons", label, "button", [text("label", "Label"), url("href", "Link", { help: LINK_HELP })], {
+          itemLabel: (b) => b.label,
+        });
+
+      const resumeFields = [
+        text("title", "Page title"),
+        buttons("Buttons under the title"),
+        list(
+          "sections",
+          "Sections",
+          "section",
+          [
+            text("heading", "Heading"),
+            list(
+              "entries",
+              "Entries",
+              "entry",
+              [
+                text("title", "Title", { help: "Leave empty for a plain bullet list (like Honors or Skills)." }),
+                long("meta", "Small line under the title", { rich: true, help: "Place and dates, or a role." }),
+                long("text", "Description", { rich: true }),
+                strings("bullets", "Bullet points", { long: true, one: "bullet" }),
+                url("href", "Make the title a link to", { help: "Optional." }),
+                text("group", "Group label", {
+                  help: "Optional. Entries in a row with the same label (like Songwriting) get it shown once above them.",
+                }),
+              ],
+              { itemLabel: (e) => e.title || (e.bullets ?? [])[0] },
+            ),
+          ],
+          { itemLabel: (s) => s.heading },
+        ),
+      ];
+
+      const SECTIONS = [
+        { group: "Pages" },
+        {
+          key: "home",
+          title: "Home",
+          path: "/",
+          fields: [
+            strings("heading", "Big name", { help: "Each line is shown on its own row.", one: "line" }),
+            strings("places", "Places (the pills under the name)", { one: "place" }),
+            list(
+              "links",
+              "Big links",
+              "link",
+              [
+                text("label", "Label"),
+                url("href", "Link", { help: LINK_HELP }),
+                text("note", "Small note", { help: "Optional, shown in brackets. The Shop link says “soon” by itself until the shop has an address." }),
+              ],
+              { itemLabel: (l) => l.label },
+            ),
+          ],
+        },
+        {
+          key: "about",
+          title: "About me",
+          path: "/about-me",
+          fields: [
+            text("title", "Page title"),
+            {
+              key: "portrait",
+              label: "Main photo",
+              type: "group",
+              fields: [image("image", "Photo"), text("alt", "Describe the photo (for screen readers)"), text("credit", "Caption")],
+            },
+            text("name", "Name"),
+            long("credentials", "Lines under the name", { rich: true }),
+            long("intro", "Intro", { rich: true }),
+            buttons(),
+            list(
+              "sections",
+              "Sections",
+              "section",
+              [long("lead", "Big opening sentence", { rich: true }), long("text", "Text", { rich: true })],
+              { itemLabel: (s) => s.lead || s.text, help: "Each section gets its own colour as you scroll. The photo wall sits at the end of the last one." },
+            ),
+            list("photos", "Photo wall", "photo", [image("image", "Photo"), text("alt", "Describe the photo (for screen readers)")], {
+              itemLabel: (p) => p.alt || p.image,
+              thumb: (p) => p.image,
+            }),
+            long("closing", "Closing text", { rich: true }),
+            text("signoff", "Big sign-off"),
+          ],
+        },
+        { key: "resume", title: "Resume / CV", path: "/about-me/professional-resume", fields: resumeFields },
+        { key: "artistResume", title: "Artist resume", path: "/about-me/artist-resume", fields: resumeFields },
+        {
+          key: "press",
+          title: "In media",
+          path: "/about-me/in-media",
+          fields: [
+            text("title", "Page title"),
+            list(
+              "items",
+              "Articles",
+              "article",
+              [
+                text("title", "Headline"),
+                text("source", "Where and when", { help: "For example: MIT News · 2025" }),
+                url("href", "Link to the article"),
+                long("blurb", "Short description"),
+                image("image", "Picture"),
+              ],
+              { itemLabel: (p) => p.title, thumb: (p) => p.image },
+            ),
+            text("videoHeading", "Video heading"),
+            text("videoId", "YouTube video id", { help: "The letters after “v=” in the video's address (like cglrEGjWdvg). Leave empty for no video." }),
+          ],
+        },
+        {
+          key: "art",
+          title: "Art",
+          path: "/things-i-do/art",
+          fields: [
+            text("title", "Page title"),
+            long("intro", "Line under the title"),
+            list(
+              "projects",
+              "Projects",
+              "project",
+              [
+                text("name", "Name"),
+                long("lead", "Big opening sentence", { rich: true, help: "Optional." }),
+                long("text", "Text", { rich: true }),
+                buttons(),
+                list(
+                  "images",
+                  "Pictures",
+                  "picture",
+                  [image("image", "Picture"), text("alt", "Describe the picture (for screen readers)"), text("caption", "Caption")],
+                  { itemLabel: (p) => p.caption || p.alt || p.image, thumb: (p) => p.image, help: "One picture sits beside the text; two or more become a gallery under it." },
+                ),
+              ],
+              { itemLabel: (p) => p.name },
+            ),
+          ],
+        },
+        {
+          key: "music",
+          title: "Music",
+          path: "/things-i-do/music",
+          fields: [
+            text("title", "Page title"),
+            text("intro", "Line under the title"),
+            text("lead", "Big opening sentence"),
+            strings("steps", "The story, step by step", { long: true, one: "step", help: "An arrow is added after each step except the last." }),
+            url("spotifyEmbed", "Spotify player address", { help: "From Spotify: Share → Embed → the address inside src=\"…\". Leave empty to hide the player." }),
+            text("outro", "Line under the player"),
+            buttons(),
+          ],
+        },
+        {
+          key: "projects",
+          title: "Other projects",
+          path: "/things-i-do/other-projects",
+          fields: [
+            text("title", "Page title"),
+            list("items", "Projects", "project", [text("label", "Name"), text("note", "Small note"), url("href", "Link", { help: LINK_HELP })], {
+              itemLabel: (p) => p.label,
+            }),
+            text("note", "Line at the bottom"),
+          ],
+        },
+        {
+          key: "shop",
+          title: "Shop",
+          path: "/shop",
+          fields: [
+            text("title", "Page title"),
+            url("url", "Shop address", { help: "Leave empty while the shop isn't open: the page says “opening soon”. Paste the shop's address here and the page becomes a button to it." }),
+            text("soonHeading", "“Soon” heading"),
+            text("soonLead", "“Soon” big line"),
+            long("soonText", "“Soon” text"),
+            text("openLead", "Big line once the shop is open"),
+            text("openButton", "Button label once the shop is open"),
+          ],
+        },
+        {
+          key: "contact",
+          title: "Contact",
+          path: "/contact",
+          fields: [
+            text("title", "Page title"),
+            list(
+              "rows",
+              "Ways to reach you",
+              "row",
+              [text("label", "Small label"), text("text", "Big text"), url("href", "Link", { help: "For email, write mailto: followed by the address." })],
+              { itemLabel: (r) => [r.label, r.text].filter(Boolean).join(": ") },
+            ),
+          ],
+        },
+        { group: "Whole site" },
+        {
+          key: "palettes",
+          title: "Colours",
+          path: "/",
+          root: true,
+          tip: "These are the colour pairs the site changes between, in this order. Each pair needs a contrast of at least 4.5 so the text stays readable.",
+          fields: [
+            list(
+              "root",
+              "Colour pairs",
+              "colour pair",
+              [
+                { type: "swatch" },
+                { key: "bg", label: "Background", type: "color" },
+                { key: "fg", label: "Text", type: "color" },
+                text("name", "Name (just for you)"),
+              ],
+              { itemLabel: (p) => p.name || `${p.bg} / ${p.fg}`, chip: true, blank: { name: "", bg: "#ffffff", fg: "#000000" } },
+            ),
+          ],
+        },
+        {
+          key: "site",
+          title: "Site settings",
+          path: "/",
+          fields: [
+            text("name", "Full name", { help: "Used in browser tabs and the footer." }),
+            text("short", "Short name (top-left of every page)"),
+            strings("tagline", "Scrolling words on the home page", { one: "word" }),
+            text("email", "Email"),
+            list("socials", "Footer links", "link", [text("label", "Label"), url("href", "Address")], { itemLabel: (s) => s.label }),
+          ],
+        },
+      ];
+      const sectionOf = (key) => SECTIONS.find((s) => s.key === key);
+
+      // ---------- state ----------
+
+      let DATA = null; // everything from the server, by section key
+      let current = null; // section key being edited
+      let work = null; // working copy of that section's data
+      let dirty = false;
+      const openItems = new WeakSet(); // list entries that are expanded
+
+      async function api(method, path, body) {
+        const res = await fetch(path, {
+          method,
+          headers: body ? { "Content-Type": "application/json" } : {},
+          body: body ? JSON.stringify(body) : undefined,
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) throw Object.assign(new Error(json.error || "Something went wrong."), { status: res.status });
+        return json;
+      }
+
+      let toastTimer;
+      function toast(message, { bad = false, link = null } = {}) {
+        document.querySelector(".toast")?.remove();
+        clearTimeout(toastTimer);
+        const el = h("div", { class: "toast" + (bad ? " bad" : ""), role: "status" }, message);
+        if (link) el.append(h("a", { href: link, target: "_blank", rel: "noopener" }, "View on site ↗"));
+        document.body.append(el);
+        toastTimer = setTimeout(() => el.remove(), bad ? 9000 : 4500);
+      }
+
+      function setDirty(value) {
+        dirty = value;
+        $("savebar").classList.toggle("on", dirty);
+      }
+      const touch = () => setDirty(true);
+      addEventListener("beforeunload", (e) => {
+        if (dirty) e.preventDefault();
+      });
+
+      // ---------- colour maths (same rule as the server) ----------
+
+      function luminance(hex) {
+        const c = [1, 3, 5]
+          .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+          .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+      }
+      const isHex = (c) => /^#[0-9a-f]{6}$/i.test(c ?? "");
+      const contrast = (a, b) =>
+        isHex(a) && isHex(b) ? (Math.max(luminance(a), luminance(b)) + 0.05) / (Math.min(luminance(a), luminance(b)) + 0.05) : 0;
+
+      // ---------- form controls ----------
+
+      function blank(fields) {
+        const out = {};
+        for (const f of fields) {
+          if (!f.key) continue;
+          out[f.key] = f.type === "strings" || f.type === "list" ? [] : f.type === "group" ? blank(f.fields) : "";
+        }
+        return out;
+      }
+
+      let uid = 0;
+      function renderFields(fields, obj) {
+        return fields.map((f) => renderField(f, obj));
+      }
+
+      function renderField(field, obj) {
+        if (field.type === "swatch") return swatch(obj);
+        const id = `f${++uid}`;
+        const wrap = h("div", { class: "field" });
+        const labelTag = ["text", "long", "url"].includes(field.type) ? "label" : "div";
+        wrap.append(h(labelTag, { class: "label", for: labelTag === "label" ? id : null }, field.label));
+        if (field.type === "group") {
+          obj[field.key] ??= blank(field.fields);
+          wrap.append(h("div", { class: "group" }, renderFields(field.fields, obj[field.key])));
+        } else if (field.type === "list") wrap.append(listControl(field, obj));
+        else if (field.type === "strings") wrap.append(stringsControl(field, obj));
+        else if (field.type === "image") wrap.append(imageControl(field, obj));
+        else if (field.type === "color") wrap.append(colorControl(field, obj));
+        else wrap.append(textControl(field, obj, id));
+        if (field.help) wrap.append(h("p", { class: "help" }, field.help));
+        return wrap;
+      }
+
+      function autosize(el) {
+        el.style.height = "auto";
+        el.style.height = el.scrollHeight + 4 + "px";
+      }
+
+      function textControl(field, obj, id) {
+        const value = obj[field.key] ?? "";
+        const oninput = (e) => {
+          obj[field.key] = e.target.value;
+          touch();
+          if (field.type === "long") autosize(e.target);
+        };
+        if (field.type === "long") {
+          const el = h("textarea", { id, rows: 2, value, oninput });
+          requestAnimationFrame(() => autosize(el));
+          return el;
+        }
+        return h("input", { id, type: "text", value, oninput, spellcheck: field.type !== "url", autocomplete: "off" });
+      }
+
+      function colorControl(field, obj) {
+        const picker = h("input", { type: "color", value: isHex(obj[field.key]) ? obj[field.key] : "#000000", "aria-label": field.label });
+        const hex = h("input", { type: "text", value: obj[field.key] ?? "", "aria-label": `${field.label} hex code`, spellcheck: false });
+        picker.addEventListener("input", () => {
+          obj[field.key] = hex.value = picker.value;
+          touch();
+        });
+        hex.addEventListener("input", () => {
+          const v = hex.value.trim().toLowerCase();
+          obj[field.key] = v;
+          if (isHex(v)) picker.value = v;
+          touch();
+        });
+        return h("div", { class: "color" }, picker, hex);
+      }
+
+      // A live preview of one colour pair, with its contrast score.
+      function swatch(obj) {
+        const note = h("small");
+        const el = h("div", { class: "swatch" }, "Margaret Zheng", note);
+        el.update = () => {
+          el.style.background = isHex(obj.bg) ? obj.bg : "#fff";
+          el.style.color = isHex(obj.fg) ? obj.fg : "#000";
+          const ratio = contrast(obj.bg, obj.fg);
+          note.textContent = !ratio
+            ? "Pick two colours."
+            : ratio >= 4.5
+              ? `Contrast ${ratio.toFixed(1)} — easy to read ✓`
+              : `Contrast ${ratio.toFixed(1)} — too low, needs 4.5 or more ✗`;
+        };
+        el.update();
+        return el;
+      }
+
+      function imageControl(field, obj) {
+        const box = h("div", { class: "photo" });
+        const file = h("input", { type: "file", accept: "image/*,.heic,.heif", hidden: true });
+        const draw = () => {
+          const value = obj[field.key];
+          box.replaceChildren(
+            value ? h("img", { src: `/assets/${encodeURIComponent(value)}`, alt: "" }) : h("div", { class: "empty" }, "No photo"),
+            h(
+              "div",
+              {},
+              value && h("p", { class: "name" }, value),
+              h("button", { class: "btn small", type: "button", onclick: () => file.click() }, value ? "Replace…" : "Choose photo…"),
+              " ",
+              value &&
+                h(
+                  "button",
+                  {
+                    class: "btn small danger",
+                    type: "button",
+                    onclick: () => {
+                      obj[field.key] = "";
+                      touch();
+                      draw();
+                      box.dispatchEvent(new Event("input", { bubbles: true }));
+                    },
+                  },
+                  "Remove",
+                ),
+            ),
+            file,
+          );
+        };
+        file.addEventListener("change", async () => {
+          const picked = file.files[0];
+          file.value = "";
+          if (!picked) return;
+          box.querySelector("button").textContent = "Uploading…";
+          try {
+            const dataUrl = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = () => reject(new Error("Couldn't read that file."));
+              reader.readAsDataURL(picked);
+            });
+            const { image } = await api("POST", "/api/photo", { name: picked.name, dataUrl });
+            obj[field.key] = image;
+            touch();
+          } catch (err) {
+            toast(err.message, { bad: true });
+          }
+          draw();
+          box.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+        draw();
+        return box;
+      }
+
+      function moveButtons(arr, i, redraw) {
+        const move = (delta) => (e) => {
+          e.preventDefault();
+          [arr[i], arr[i + delta]] = [arr[i + delta], arr[i]];
+          touch();
+          redraw();
+        };
+        return [
+          h("button", { class: "btn small", type: "button", disabled: i === 0, title: "Move up", "aria-label": "Move up", onclick: move(-1) }, "↑"),
+          h("button", { class: "btn small", type: "button", disabled: i === arr.length - 1, title: "Move down", "aria-label": "Move down", onclick: move(1) }, "↓"),
+          h(
+            "button",
+            {
+              class: "btn small danger",
+              type: "button",
+              title: "Remove",
+              "aria-label": "Remove",
+              onclick: (e) => {
+                e.preventDefault();
+                arr.splice(i, 1);
+                touch();
+                redraw();
+              },
+            },
+            "✕",
+          ),
+        ];
+      }
+
+      function stringsControl(field, obj) {
+        const arr = (obj[field.key] ??= []);
+        const box = h("div", {});
+        const draw = (focusLast = false) => {
+          const rows = arr.map((value, i) => {
+            const oninput = (e) => {
+              arr[i] = e.target.value;
+              touch();
+              if (field.long) autosize(e.target);
+            };
+            const input = field.long
+              ? h("textarea", { rows: 1, value, oninput, "aria-label": `${field.label} ${i + 1}` })
+              : h("input", { type: "text", value, oninput, "aria-label": `${field.label} ${i + 1}` });
+            if (field.long) requestAnimationFrame(() => autosize(input));
+            return h("div", { class: "row" }, input, moveButtons(arr, i, draw));
+          });
+          box.replaceChildren(
+            h("div", { class: "list" }, rows),
+            h(
+              "button",
+              {
+                class: "btn small add",
+                type: "button",
+                onclick: () => {
+                  arr.push("");
+                  touch();
+                  draw(true);
+                },
+              },
+              `+ Add ${field.one ?? "line"}`,
+            ),
+          );
+          if (focusLast) box.querySelector(".list .row:last-child :first-child")?.focus();
+        };
+        draw();
+        return box;
+      }
+
+      function listControl(field, obj) {
+        const arr = (obj[field.key] ??= []);
+        const box = h("div", {});
+        const draw = () => {
+          const items = arr.map((item, i) => {
+            const name = h("span", { class: "name" });
+            const lead = field.chip ? h("span", { class: "chip" }, "Aa") : field.thumb ? h("span", {}) : null;
+            const body = h("div", { class: "body" });
+            const details = h(
+              "details",
+              { class: "item", open: openItems.has(item) },
+              h("summary", {}, lead, name, moveButtons(arr, i, draw)),
+              body,
+            );
+            const label = () => {
+              name.textContent = (field.itemLabel?.(item) || "").trim() || `New ${field.one}`;
+              if (field.chip) {
+                lead.style.background = isHex(item.bg) ? item.bg : "#fff";
+                lead.style.color = isHex(item.fg) ? item.fg : "#000";
+              }
+              details.querySelectorAll(":scope > .body > .swatch").forEach((s) => s.update());
+            };
+            // Build the form inside only when the entry is first opened.
+            const fill = () => {
+              if (!body.childElementCount) body.append(...renderFields(field.fields, item));
+              label();
+            };
+            details.addEventListener("toggle", () => {
+              if (details.open) (openItems.add(item), fill());
+              else openItems.delete(item);
+            });
+            details.addEventListener("input", label);
+            if (details.open) fill();
+            else label();
+            return details;
+          });
+          box.replaceChildren(
+            h("div", { class: "list" }, items),
+            h(
+              "button",
+              {
+                class: "btn small add",
+                type: "button",
+                onclick: () => {
+                  const item = field.blank ? clone(field.blank) : blank(field.fields);
+                  arr.push(item);
+                  openItems.add(item);
+                  touch();
+                  draw();
+                  box.querySelector(".list details:last-child input, .list details:last-child textarea")?.focus();
+                },
+              },
+              `+ Add ${field.one}`,
+            ),
+          );
+        };
+        draw();
+        return box;
+      }
+
+      // ---------- screens ----------
+
+      function renderNav() {
+        $("nav").replaceChildren(
+          ...SECTIONS.map((s) =>
+            s.group
+              ? h("p", {}, s.group)
+              : h("button", { type: "button", "aria-current": s.key === current ? "true" : null, onclick: () => show(s.key) }, s.title),
+          ),
+        );
+      }
+
+      function show(key) {
+        if (dirty && key !== current) return toast("Save or discard your changes first.", { bad: true });
+        current = key;
+        try {
+          localStorage.setItem("mz-editor-section", key);
+        } catch {}
+        const sec = sectionOf(key);
+        work = sec.root ? { root: clone(DATA[key].data) } : clone(DATA[key].data);
+        setDirty(false);
+        renderNav();
+        const usesRich = JSON.stringify(sec.fields).includes('"rich":true');
+        const parts = [
+          h(
+            "div",
+            { class: "page-head" },
+            h("h2", {}, sec.title),
+            h("a", { class: "btn", href: DATA.preview + sec.path, target: "_blank", rel: "noopener" }, "View on site ↗"),
+          ),
+          h("p", { class: "file" }, `Saved in ${DATA[key].file}`),
+          sec.tip && h("p", { class: "tip" }, sec.tip),
+          usesRich &&
+            h(
+              "p",
+              { class: "tip" },
+              "In longer text: leave an empty line to start a new paragraph. Write a link as ",
+              h("code", {}, "[the words](https://address)"),
+              " and bold as ",
+              h("code", {}, "**words**"),
+              ".",
+            ),
+          h("form", { onsubmit: (e) => e.preventDefault() }, renderFields(sec.fields, work)),
+        ];
+        $("main").replaceChildren(...parts.filter(Boolean));
+        scrollTo(0, 0);
+      }
+
+      // Trims text and drops empty lines from plain lists before saving.
+      function tidy(fields, obj) {
+        for (const f of fields) {
+          if (!f.key) continue;
+          const v = obj[f.key];
+          if (typeof v === "string") obj[f.key] = v.trim();
+          else if (f.type === "strings") obj[f.key] = (v ?? []).map((s) => s.trim()).filter(Boolean);
+          else if (f.type === "list") (v ?? []).forEach((item) => tidy(f.fields, item));
+          else if (f.type === "group" && v) tidy(f.fields, v);
+        }
+      }
+
+      async function save() {
+        const sec = sectionOf(current);
+        tidy(sec.fields, work);
+        const data = sec.root ? work.root : work;
+        if (current === "palettes") {
+          const bad = data.find((p) => contrast(p.bg, p.fg) < 4.5);
+          if (data.length < 2) return toast("Keep at least two colour pairs so the site has something to change between.", { bad: true });
+          if (bad) return toast(`“${bad.name || bad.bg}” doesn't have enough contrast to read. Adjust it or remove it.`, { bad: true });
+        }
+        $("save-btn").disabled = true;
+        try {
+          const { version } = await api("PUT", `/api/data/${current}`, { data, version: DATA[current].version });
+          DATA[current] = { ...DATA[current], data: clone(data), version };
+          setDirty(false);
+          toast("Saved.", { link: DATA.preview + sec.path });
+          refreshPublish();
+        } catch (err) {
+          toast(err.message, { bad: true });
+          if (err.status === 409) {
+            DATA = await api("GET", "/api/data");
+            setDirty(false);
+            show(current);
+          }
+        } finally {
+          $("save-btn").disabled = false;
+        }
+      }
+
+      $("save-btn").addEventListener("click", save);
+      $("discard-btn").addEventListener("click", () => {
+        setDirty(false);
+        show(current);
+      });
+      addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+          e.preventDefault();
+          if (dirty) save();
+        }
+      });
+
+      // ---------- publishing ----------
+
+      async function refreshPublish() {
+        try {
+          const status = await api("GET", "/api/publish");
+          const n = status.changes.length + status.pending.length;
+          $("publish-btn").textContent = n ? `Publish… (${n})` : "Publish…";
+          return status;
+        } catch {
+          return null;
+        }
+      }
+
+      function dialog(...children) {
+        const d = $("dialog");
+        d.replaceChildren(...children.flat().filter(Boolean));
+        if (!d.open) d.showModal();
+      }
+      const closeBtn = (label = "Close") => h("button", { class: "btn", type: "button", onclick: () => $("dialog").close() }, label);
+
+      async function openPublish() {
+        if (dirty) return toast("Save or discard your changes first.", { bad: true });
+        dialog(h("h2", {}, "Publish"), h("p", {}, "Checking what's changed…"));
+        const status = await refreshPublish();
+        if (!status) return dialog(h("h2", {}, "Publish"), h("p", {}, "Couldn't check the changes. Is the editor still running?"), h("div", { class: "actions" }, closeBtn()));
+        if (status.problem) return dialog(h("h2", {}, "Can't publish yet"), h("p", {}, status.problem), h("div", { class: "actions" }, closeBtn()));
+        if (!status.changes.length && !status.pending.length) {
+          return dialog(h("h2", {}, "All published"), h("p", {}, "Everything you've saved is already live."), h("div", { class: "actions" }, closeBtn()));
+        }
+        dialog(
+          h("h2", {}, "Publish"),
+          h("p", {}, "This sends the following to margezart.com:"),
+          h(
+            "ul",
+            {},
+            status.changes.map((c) => h("li", {}, `${c.title}: ${c.action} ${c.label}`)),
+            status.pending.map((p) => h("li", {}, `Waiting from earlier: ${p}`)),
+          ),
+          h(
+            "div",
+            { class: "actions" },
+            closeBtn("Not yet"),
+            h("button", { class: "btn solid", type: "button", onclick: publish }, "Publish now"),
+          ),
+        );
+      }
+
+      async function publish() {
+        dialog(h("h2", {}, "Publishing…"), h("p", {}, "Sending your changes to GitHub."));
+        try {
+          const { sha } = await api("POST", "/api/publish");
+          refreshPublish();
+          watchDeploy(sha);
+        } catch (err) {
+          dialog(h("h2", {}, "Not published"), h("p", {}, err.message), h("div", { class: "actions" }, closeBtn()));
+        }
+      }
+
+      async function watchDeploy(sha) {
+        const line = h("p", {}, "Sent! The site is rebuilding; it's usually live in a minute or two.");
+        dialog(h("h2", {}, "On its way"), line, h("div", { class: "actions" }, closeBtn()));
+        for (let i = 0; i < 60 && $("dialog").open; i++) {
+          await new Promise((r) => setTimeout(r, 5000));
+          const d = await api("GET", `/api/deploy?sha=${sha}`).catch(() => ({ available: false }));
+          if (!d.available) return; // no GitHub CLI: the message above is all we know
+          if (d.status === "completed") {
+            line.textContent =
+              d.conclusion === "success" ? "Live! Your changes are on margezart.com." : "The rebuild on GitHub failed. Ask Claude to take a look.";
+            if (d.url && d.conclusion !== "success") line.append(" ", h("a", { href: d.url, target: "_blank", rel: "noopener" }, "Details ↗"));
+            return;
+          }
+        }
+      }
+
+      $("publish-btn").addEventListener("click", openPublish);
+
+      // ---------- start ----------
+
+      (async () => {
+        try {
+          DATA = await api("GET", "/api/data");
+        } catch (err) {
+          $("main").replaceChildren(h("p", {}, `Couldn't load the site's content: ${err.message}`));
+          return;
+        }
+        $("site-link").href = DATA.preview;
+        let start = "home";
+        try {
+          start = location.hash.slice(1) || localStorage.getItem("mz-editor-section") || start;
+        } catch {}
+        show(sectionOf(start)?.key ? start : "home");
+        refreshPublish();
+      })();
+    </script>
+  </body>
+</html>

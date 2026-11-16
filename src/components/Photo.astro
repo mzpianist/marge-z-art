@@ -1,0 +1,31 @@
+---
+// A framed picture from src/assets/, by filename. Animated GIFs are shown
+// as-is; everything else is resized and converted for the web.
+import { Image } from "astro:assets";
+import { image } from "../content/images";
+
+interface Props {
+  name: string;
+  alt?: string;
+  caption?: string;
+  sizes?: string;
+  widths?: number[];
+}
+const { name, alt = "", caption = "", sizes = "(max-width: 700px) 100vw, 33vw", widths = [400, 800] } = Astro.props;
+const src = image(name);
+---
+
+{
+  src && (
+    <figure>
+      <div class="frame">
+        {src.format === "gif" ? (
+          <img src={src.src} width={src.width} height={src.height} alt={alt} loading="lazy" />
+        ) : (
+          <Image src={src} alt={alt} widths={widths} sizes={sizes} />
+        )}
+      </div>
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  )
+}

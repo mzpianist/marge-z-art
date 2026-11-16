@@ -1,0 +1,42 @@
+{
+  "title": "In media",
+  "items": [
+    {
+      "image": "press-1.jpg",
+      "source": "MIT News · 2025",
+      "title": "Scene at MIT: Artfinity brings artistic celebration to campus",
+      "blurb": "The MIT campus came alive with artistic energy on March 13 as Artfinity — the Institute's new festival celebrating creativity and community — took over multiple venues with interactive experiences, exhibitions, and performances.",
+      "href": "https://news.mit.edu/2025/scene-mit-artfinity-brings-artistic-celebration-campus-0325"
+    },
+    {
+      "image": "press-2.jpg",
+      "source": "MIT News · 2022",
+      "title": "Spreading joy with Wide Tim",
+      "blurb": "MIT senior Margaret Zheng created Wide Tim to help connect the MIT community with an adorable character inspired by MIT's mascot, Tim the Beaver.",
+      "href": "https://news.mit.edu/2022/spreading-joy-with-wide-tim-1129"
+    },
+    {
+      "image": "press-3.jpg",
+      "source": "MIT Artfinity",
+      "title": "Coloring with Wide Tim | Artfinity",
+      "blurb": "",
+      "href": "https://artfinity.mit.edu/event/coloring-with-wide-tim"
+    },
+    {
+      "image": "press-4.jpg",
+      "source": "Arts at MIT",
+      "title": "The 2023 Wiesner Student Art Awards",
+      "blurb": "Each year, the Laya and Jerome B. Wiesner Student Art Award is presented to four honorees for exceptional artistic contributions to the Institute community.",
+      "href": "https://arts.mit.edu/wiesner-student-art-award-2023/"
+    },
+    {
+      "image": "press-5.jpg",
+      "source": "MIT Technology Review · 2023",
+      "title": "The beaver with the infinite smile",
+      "blurb": "Despite a busy schedule packed with eating and sleeping, Wide Tim makes time for the vital work of spreading happiness.",
+      "href": "https://www.technologyreview.com/2023/02/21/1067587/the-beaver-with-the-infinite-smile/"
+    }
+  ],
+  "videoHeading": "Being WIDE",
+  "videoId": "cglrEGjWdvg"
+}

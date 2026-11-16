@@ -1,0 +1,59 @@
+{
+  "title": "About me",
+  "portrait": {
+    "image": "yellow.png",
+    "alt": "Margaret in a yellow sweater pointing at the camera against a yellow wall",
+    "credit": "Photo credit: Shelby Laitipaya"
+  },
+  "name": "Tianyuan “Margaret” Zheng 郑天圆",
+  "credentials": "MIT SB ’23, MEng ’24\nPhi Beta Kappa, Tau Beta Pi",
+  "intro": "Hi! My name is Margaret, and I'm an artist/musician/math and economics enjoyer/writer based in Boston, MA. A fun fact about me is that I've never not lived next to the coast. Another fun fact is that I was born on pi day. A third fun fact is that I moved to the U.S. because I fell in love with frozen yogurt. Now what if I told you these were two truths and a lie? (jk, they are all truths as far as I know.)",
+  "buttons": [
+    {
+      "label": "Professional resume",
+      "href": "/about-me/professional-resume"
+    },
+    {
+      "label": "Artist resume",
+      "href": "/about-me/artist-resume"
+    },
+    {
+      "label": "In media",
+      "href": "/about-me/in-media"
+    }
+  ],
+  "sections": [
+    {
+      "lead": "As an MIT undergraduate, I double majored in course 18 (Math) and course 6-14 (CS/Econ/Data Sci) with a minor in 21M (Music), though I sometimes wished that I had double majored in eating and sleeping instead (like a [certain plump beaver](https://www.widetim.com/about/about-wide-tim) that I draw sometimes).",
+      "text": "I stayed at MIT for another year and a master's degree in 6-14, during which I got to do some research on education topics in economics, teach econometrics/game theory, and continue doing art :D\n\nI've loved creating art for as long as I can remember, but it was not until my college years that I finally started to see it as a powerful voice and a game-changer that brightens the world and brings smiles to people’s faces. Because of this, I’ve been actively involved in many of MIT’s public art projects, art organizations, and independently-run STEM and wellness art accounts, sharing the joy of the colorful palettes in my head and hands."
+    },
+    {
+      "lead": "Art makes me happy, but so do many other things: piano improvisation, writing songs, poetry, and stories, exploring random math facts, pondering complexity theory questions, drawing econometrics comics, and baking π without a recipe.",
+      "text": "It feels like there's as much to life as the cardinalities of infinities, and I’m here for all of it through the rain and shine."
+    }
+  ],
+  "photos": [
+    {
+      "image": "piano.png",
+      "alt": "Margaret sitting at an upright piano, turned toward the camera"
+    },
+    {
+      "image": "artfinity.jpg",
+      "alt": "Margaret in an orange coat in front of the Coloring with Wide Tim window mural"
+    },
+    {
+      "image": "graduation.jpg",
+      "alt": "Margaret at MIT graduation holding flowers and a Wide Tim graduation cap"
+    },
+    {
+      "image": "showcase.jpg",
+      "alt": "Margaret next to a Wide Tim standee and a screen of Wide Tim artworks"
+    },
+    {
+      "image": "blossoms.png",
+      "alt": "Margaret in a red and white dress seated under cherry blossoms"
+    }
+  ],
+  "closing": "Thank you for visiting this space where I put forth my best efforts to consolidate my interests, hobbies, and projects. If you would like to follow my life in comic form, check out [@marge_z_art](https://www.instagram.com/marge_z_art/) on Instagram!",
+  "signoff": "HAVE FUN and hope that you are having a great day!"
+}

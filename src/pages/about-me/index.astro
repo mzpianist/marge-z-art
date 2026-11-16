@@ -1,0 +1,52 @@
+---
+import Base from "../../layouts/Base.astro";
+import Photo from "../../components/Photo.astro";
+import Buttons from "../../components/Buttons.astro";
+import about from "../../content/about.json";
+import { rich, paragraphs } from "../../content/rich";
+---
+
+<Base title={about.title} description="Tianyuan “Margaret” Zheng — artist, musician, math and economics enjoyer, writer, based in Boston.">
+  <header class="page-title">
+    <h1>{about.title}</h1>
+  </header>
+
+  <section class="band split">
+    <Photo
+      name={about.portrait.image}
+      alt={about.portrait.alt}
+      caption={about.portrait.credit}
+      widths={[480, 920]}
+      sizes="(max-width: 700px) 100vw, 45vw"
+    />
+    <div>
+      <h2>{about.name}</h2>
+      {about.credentials && <p class="big" set:html={rich(about.credentials)} />}
+      {paragraphs(about.intro).map((p) => <p set:html={p} />)}
+      <Buttons buttons={about.buttons} />
+    </div>
+  </section>
+
+  {
+    about.sections.map((section, i) => (
+      <section class="band" data-shift>
+        {section.lead && <p class="big" set:html={rich(section.lead)} />}
+        {paragraphs(section.text).map((p) => (
+          <p set:html={p} />
+        ))}
+        {i === about.sections.length - 1 && about.photos.length > 0 && (
+          <div class="gallery">
+            {about.photos.map((p) => (
+              <Photo name={p.image} alt={p.alt} />
+            ))}
+          </div>
+        )}
+      </section>
+    ))
+  }
+
+  <section class="band" data-shift>
+    {paragraphs(about.closing).map((p) => <p set:html={p} />)}
+    {about.signoff && <h2>{about.signoff}</h2>}
+  </section>
+</Base>

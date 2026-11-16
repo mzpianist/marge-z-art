@@ -1,0 +1,214 @@
+{
+  "title": "Artist resume",
+  "buttons": [
+    {
+      "label": "Professional resume",
+      "href": "/about-me/professional-resume"
+    },
+    {
+      "label": "In media",
+      "href": "/about-me/in-media"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Education",
+      "entries": [
+        {
+          "group": "",
+          "title": "Massachusetts Institute of Technology",
+          "href": "",
+          "meta": "Cambridge, MA",
+          "text": "",
+          "bullets": [
+            "Master of Engineering in CS/Economics/Data Science | GPA: 4.8/5.0 | 2023–2024",
+            "Bachelor of Science in Mathematics and in CS/Economics/Data Science | GPA: 4.9/5.0 | 2019–2024",
+            "Minor in Music."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Coursework",
+          "href": "",
+          "meta": "",
+          "text": "",
+          "bullets": [
+            "**Mathematics:** Statistics, Discrete Mathematics, Functional Analysis, Real Analysis, Abstract Algebra, Topology",
+            "**Economics:** Econometrics, Labor Economics, Game Theory, Public Finance & Policy, Microeconomics",
+            "**Computer Science/Data Science:** Optimization, Machine Learning, Analysis of Algorithms, Python Programming"
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Skills",
+      "entries": [
+        {
+          "group": "",
+          "title": "Visual arts",
+          "href": "",
+          "meta": "",
+          "text": "Digital art & illustration, watercolor, acrylic, oil painting, charcoal.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Music",
+          "href": "",
+          "meta": "",
+          "text": "Piano, keyboard, violin, composition, songwriting, mixing/production.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Software",
+          "href": "",
+          "meta": "",
+          "text": "Procreate, Logic Pro X, Audacity, Reaper, Max 8, Adobe (Photoshop, Animate)",
+          "bullets": []
+        }
+      ]
+    },
+    {
+      "heading": "Productions & Releases",
+      "entries": [
+        {
+          "group": "Songwriting",
+          "title": "Simple Phrases",
+          "href": "https://open.spotify.com/track/1cu27rqkinRiA68mrjN4Tq?si=304251214fe14cb5",
+          "meta": "2024 · composer, lyricist, instrumentalist, producer",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "Songwriting",
+          "title": "If I Had A Nickel (The Best Kind of Friends)",
+          "href": "https://open.spotify.com/track/4B6YKbc1yOm0OuoJmGucUP?si=f4d152d6bcdb498b",
+          "meta": "2024 · composer, lyricist, instrumentalist, producer",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "Soundtrack",
+          "title": "WIDE words",
+          "href": "https://open.spotify.com/track/6aF23iAPFgjRBI7rw7Nwkm?si=4901130a7f2c4e6d",
+          "meta": "2024 · composer, instrumentalist, producer",
+          "text": "Background track for Being WIDE (2024).",
+          "bullets": []
+        },
+        {
+          "group": "Soundtrack",
+          "title": "Raindrops @ 1:30",
+          "href": "https://www.youtube.com/watch?v=nJUAj8neoeU",
+          "meta": "2020 · composer, instrumentalist, producer",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "Animation",
+          "title": "Being WIDE",
+          "href": "https://www.youtube.com/watch?v=cglrEGjWdvg",
+          "meta": "2024 · artist, animator, music composer",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "Animation",
+          "title": "“Lockdown” the poem by Brother Richard Hendrick, animated",
+          "href": "https://www.youtube.com/watch?v=J8loZfC6olQ",
+          "meta": "2020 · animator, music composer",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "Animation",
+          "title": "Me In Chopsticks",
+          "href": "https://www.youtube.com/watch?v=KV3WIxczdfg",
+          "meta": "2019 · script writer, animator, music composer",
+          "text": "",
+          "bullets": []
+        }
+      ]
+    },
+    {
+      "heading": "Shows & Exhibitions",
+      "entries": [
+        {
+          "group": "",
+          "title": "“A Wide Welcome”",
+          "href": "",
+          "meta": "MIT Welcome Center | Cambridge, MA | June 2021 – Present",
+          "text": "Acrylic, wall paint on wood panel, 40\" by 40\". This artwork is a real-life part of [this Wide Tim Instagram post](https://www.instagram.com/p/CLPr1dgnLd5/) and was initially a part of the Borderline Storywall Mural project. Following the end of the project, this artwork was then individually selected by the MIT Welcome Center staff and is now on display in the Welcome Center semi-permanently.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Pie with Wide Tim · Coloring with Wide Tim",
+          "href": "",
+          "meta": "Pie with Wide Tim | Cambridge, MA | March 14, 2025\nColoring with Wide Tim | Cambridge, MA | March 4–13, 2025",
+          "text": "A series of MIT community events in collaboration with [MIT Artfinity](https://artfinity.mit.edu/). Created a mural on the outside-facing glass panes of MIT Welcome Center for community members to collaborate on.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“Wide Tim in the World”",
+          "href": "",
+          "meta": "MIT Student Art Showcase | Cambridge, MA | April 28, 2024\nMIT Student Art Showcase | Cambridge, MA | May 5, 2023",
+          "text": "Compilation of 20-40 [Wide Tim artworks](https://www.instagram.com/wide_tim/) at MIT student art showcase hosted by the Art Studios at MIT.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“In Camera” · “Bridge between the Worlds”",
+          "href": "",
+          "meta": "MIT Atlas Center | Cambridge, MA | September 2022 –\nMIT Welcome Center | Cambridge, MA | June 2021 – September 2022",
+          "text": "As a part of the Borderline Storywall Mural project, these 2 detachable murals were first showcased at the MIT Welcome Center before moving to the MIT Atlas Center semi-permanently.",
+          "bullets": [
+            "“In Camera” — Acrylic, wall paint on wood panel, 11\" by 11\"",
+            "“Bridge between the Worlds” — Acrylic, wall paint on wood panel, 14\" by 14\""
+          ]
+        },
+        {
+          "group": "",
+          "title": "“@big_dijkstra_energy”",
+          "href": "",
+          "meta": "Brown University SUMS: Arts and Illusion | Providence, RI | March 2021",
+          "text": "A selection of 10 math-related artworks on display at the Brown University Symposium for Undergraduates in the Mathematical Sciences arts showcase in 2021.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“emoji hourglass”",
+          "href": "",
+          "meta": "MIT Borderline Tunnel | Cambridge, MA | September 2019 – Present",
+          "text": "Mural, approx. 40\" by 72\". [Find it from here!](http://borderline.mit.edu/murals.html)",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“Fantasy Stories”",
+          "href": "",
+          "meta": "Alabama Independent School Association Art Show | Birmingham, AL | May 2019",
+          "text": "Watercolor, 9\" by 12\".",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“From Books”",
+          "href": "",
+          "meta": "Mobile Council of the Arts Show | Mobile, AL | December 2018",
+          "text": "Watercolor, 27\" by 40\"",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "“Mardi Gras in Mobile”",
+          "href": "",
+          "meta": "Dollar General Bowl 2017 | Mobile, AL | November 2017",
+          "text": "Original: Watercolor, 9\" by 12\". This water piece was selected as the cover of the annual Dollar General Bowl football game held in Mobile, AL.",
+          "bullets": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Music",
+  "intro": "Hello & welcome to my (very short) music page!",
+  "lead": "I do music sometimes. It roughly went like this:",
+  "steps": [
+    "I've played the piano since the age of 4 but the last time I went to a piano lesson was 10+ years ago",
+    "nonetheless I still love playing the piano so now I improvise piano covers of pop songs",
+    "I kinda want to sing them too so I now also arrange for a cappella",
+    "I realize that my vocal range isn't wide so I gotta write songs that I can sing",
+    "you know what, I might as well get into music production because my videos could use a bit of original music",
+    "??? IDK where this is headed yet, we will see..."
+  ],
+  "spotifyEmbed": "https://open.spotify.com/embed/artist/4JuJGt2VXQHqROZOPt1gl3?utm_source=generator&theme=0",
+  "outro": "Anyways, I'd be so grateful if you followed my Spotify here :)",
+  "buttons": [
+    {
+      "label": "Spotify",
+      "href": "https://open.spotify.com/artist/4JuJGt2VXQHqROZOPt1gl3"
+    },
+    {
+      "label": "YouTube",
+      "href": "https://www.youtube.com/channel/UCXrbt4wHDuRsCSWhkbVgwxA"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import projects from "../../content/projects.json";
+---
+
+<Base title={projects.title} description="Other projects and small web toys by Margaret Zheng.">
+  <header class="page-title">
+    <h1>{projects.title}</h1>
+  </header>
+
+  <ul class="rows">
+    {
+      projects.items.map((item) => (
+        <li>
+          <a href={item.href}>
+            <span>
+              {item.label} {item.note && <small>({item.note})</small>}
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    projects.note && (
+      <section class="band">
+        <p class="big">{projects.note}</p>
+      </section>
+    )
+  }
+</Base>

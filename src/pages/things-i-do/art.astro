@@ -1,0 +1,51 @@
+---
+import Base from "../../layouts/Base.astro";
+import Photo from "../../components/Photo.astro";
+import Buttons from "../../components/Buttons.astro";
+import art from "../../content/art.json";
+import { rich, paragraphs } from "../../content/rich";
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+---
+
+<Base title={art.title} description="Art projects by Margaret Zheng: Wide Tim, @big_dijkstra_energy, MIT Ring Committee 2023, The Borderline @ MIT, and @marge_z_art.">
+  <header class="page-title">
+    <h1>{art.title}</h1>
+    {art.intro && <p>{art.intro}</p>}
+  </header>
+
+  {
+    art.projects.map((project, i) => {
+      // One picture sits beside the text; several become a gallery under it.
+      const single = project.images.length === 1;
+      return (
+        <section class:list={["band", { split: single }]} id={slug(project.name)} data-shift={i > 0 ? "" : undefined}>
+          <div>
+            <h2>{project.name}</h2>
+            {project.lead && <p class="big" set:html={rich(project.lead)} />}
+            {paragraphs(project.text).map((p) => (
+              <p set:html={p} />
+            ))}
+            <Buttons buttons={project.buttons} />
+          </div>
+          {single && (
+            <Photo
+              name={project.images[0].image}
+              alt={project.images[0].alt}
+              caption={project.images[0].caption}
+              widths={[480, 960]}
+              sizes="(max-width: 700px) 100vw, 45vw"
+            />
+          )}
+          {project.images.length > 1 && (
+            <div class="gallery">
+              {project.images.map((img) => (
+                <Photo name={img.image} alt={img.alt} caption={img.caption} />
+              ))}
+            </div>
+          )}
+        </section>
+      );
+    })
+  }
+</Base>

@@ -1,0 +1,287 @@
+---
+// Mood lighting: a full-screen colour timer. Ported as-is from the version that
+// was embedded on the old Google Sites page, so it deliberately does not use the
+// site layout — the whole screen is the lamp.
+import "@fontsource-variable/bricolage-grotesque";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mood lighting — Margaret Zheng</title>
+    <meta name="description" content="A full-screen colour timer: pick two colours and a duration, and the screen slowly fades from one to the other." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: "Bricolage Grotesque Variable", "Helvetica Neue", Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        transition: background 1s linear;
+        overflow: hidden;
+      }
+
+      #clock {
+        font-size: 12vw;
+        font-weight: bold;
+        width: 60vw;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.2);
+        z-index: 5;
+        user-select: none;
+      }
+
+      .back {
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        z-index: 10;
+        font-weight: 600;
+        font-size: 1.1em;
+        color: rgba(0, 0, 0, 0.45);
+        text-decoration: none;
+      }
+      .back:hover {
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .timer-running .back {
+        display: none;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 2em;
+        width: 100%;
+        max-width: 800px;
+        position: absolute;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.5s ease;
+        z-index: 10;
+        flex-wrap: wrap;
+      }
+
+      .inputs,
+      .buttons,
+      .clock-options {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* Hide inputs group when timer running */
+      .timer-running .inputs {
+        display: none;
+      }
+
+      label {
+        font-size: 1.2em;
+        color: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        user-select: none;
+      }
+
+      input[type="number"] {
+        width: 3.5em;
+        padding: 0.2em 0.4em;
+        font-size: 1em;
+      }
+
+      input[type="color"] {
+        width: 50px;
+        height: 30px;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      button {
+        font-family: inherit;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        padding: 0.5em 1em;
+        font-size: 1.8em;
+        font-weight: 600;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.45);
+        user-select: none;
+        border-radius: 6px;
+        transition: background 0.3s ease;
+      }
+      button:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back" href="/things-i-do/other-projects">← margezart.com</a>
+    <div id="clock"></div>
+
+    <div class="controls" id="controls">
+      <div class="inputs">
+        <label>
+          Duration:
+          <input type="number" id="minutes" min="0" value="5" /> min
+          <input type="number" id="seconds" min="0" max="59" value="0" /> sec
+        </label>
+        <label>
+          Start Color:
+          <input type="color" id="startColor" value="#ffffff" />
+        </label>
+        <label>
+          End Color:
+          <input type="color" id="endColor" value="#0000ff" />
+        </label>
+      </div>
+
+      <div class="buttons">
+        <button id="startBtn" onclick="startTransition()">Start</button>
+        <button id="pauseBtn" onclick="pauseTransition()">Pause</button>
+        <button id="stopBtn" onclick="stopTransition()">Stop</button>
+      </div>
+
+      <div class="clock-options">
+        <label><input type="checkbox" id="showClock" checked /> Show Clock</label>
+        <label><input type="radio" name="clockMode" value="real" /> Real Time</label>
+        <label><input type="radio" name="clockMode" value="timer" checked /> Timer</label>
+      </div>
+    </div>
+
+    <script is:inline>
+      let interval, startTime, pausedAt, remainingTime;
+      let isPaused = false;
+
+      function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+      }
+
+      function rgbToHex(r, g, b) {
+        return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
+      }
+
+      function interpolateColor(color1, color2, factor) {
+        return color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
+      }
+
+      function updateClockDisplay(durationSeconds, elapsedSeconds, currentColor) {
+        const clock = document.getElementById("clock");
+        const show = document.getElementById("showClock").checked;
+        if (!show) {
+          clock.textContent = "";
+          return;
+        }
+        const mode = document.querySelector('input[name="clockMode"]:checked').value;
+        if (mode === "real") {
+          clock.textContent = new Date().toLocaleTimeString();
+        } else {
+          const remaining = Math.max(0, durationSeconds - elapsedSeconds);
+          const mins = Math.floor(remaining / 60);
+          const secs = Math.floor(remaining % 60);
+          clock.textContent = `${mins}:${secs.toString().padStart(2, "0")}`;
+        }
+
+        const brightness = currentColor[0] * 0.299 + currentColor[1] * 0.587 + currentColor[2] * 0.114;
+        clock.style.color = brightness > 186 ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0.2)";
+      }
+
+      function startTransition() {
+        // Request fullscreen on start
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        }
+
+        const minutes = parseInt(document.getElementById("minutes").value) || 0;
+        const seconds = parseInt(document.getElementById("seconds").value) || 0;
+        const duration = minutes * 60 + seconds;
+        const startColor = hexToRgb(document.getElementById("startColor").value);
+        const endColor = hexToRgb(document.getElementById("endColor").value);
+
+        if (duration <= 0) return;
+
+        if (isPaused && remainingTime) {
+          startTime = Date.now() - (duration - remainingTime) * 1000;
+          isPaused = false;
+        } else {
+          startTime = Date.now();
+          remainingTime = duration;
+        }
+
+        document.body.classList.add("timer-running");
+        document.getElementById("controls").classList.remove("hidden");
+
+        clearInterval(interval);
+        interval = setInterval(() => {
+          const now = Date.now();
+          const elapsed = (now - startTime) / 1000;
+          remainingTime = duration - elapsed;
+
+          if (elapsed >= duration) {
+            document.body.style.backgroundColor = rgbToHex(...endColor);
+            clearInterval(interval);
+            updateClockDisplay(duration, duration, endColor);
+            document.getElementById("controls").classList.remove("hidden");
+            document.body.classList.remove("timer-running");
+            isPaused = false;
+            return;
+          }
+
+          const factor = elapsed / duration;
+          const currentColor = interpolateColor(startColor, endColor, factor);
+          document.body.style.backgroundColor = rgbToHex(...currentColor);
+          updateClockDisplay(duration, elapsed, currentColor);
+        }, 1000);
+
+        // Hide inputs, but keep buttons and clock visible
+        document.querySelector(".inputs").style.display = "none";
+      }
+
+      function pauseTransition() {
+        if (interval) {
+          clearInterval(interval);
+          isPaused = true;
+          document.body.classList.remove("timer-running");
+          // Show inputs so user can change settings if desired
+          document.querySelector(".inputs").style.display = "flex";
+        }
+      }
+
+      function stopTransition() {
+        clearInterval(interval);
+        document.body.style.backgroundColor = document.getElementById("startColor").value;
+        isPaused = false;
+        remainingTime = null;
+        document.getElementById("clock").textContent = "";
+        document.body.classList.remove("timer-running");
+        document.querySelector(".inputs").style.display = "flex";
+      }
+
+      // Update clock continuously if real-time selected or no timer running
+      setInterval(() => {
+        const show = document.getElementById("showClock").checked;
+        const mode = document.querySelector('input[name="clockMode"]:checked').value;
+        if (show && (!interval || mode === "real")) {
+          const bgColor = window.getComputedStyle(document.body).backgroundColor;
+          const rgb = bgColor.match(/\d+/g).map(Number);
+          updateClockDisplay(0, 0, rgb);
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

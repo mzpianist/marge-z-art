@@ -1,0 +1,212 @@
+{
+  "title": "Resume / CV",
+  "buttons": [
+    {
+      "label": "Resume/CV in PDF",
+      "href": "https://drive.google.com/file/d/14unSI6xWiUTqc6JFy1hSV5-m7ARR3aW8/view?usp=sharing"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/marge-z-art/"
+    },
+    {
+      "label": "Artist resume",
+      "href": "/about-me/artist-resume"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Education",
+      "entries": [
+        {
+          "group": "",
+          "title": "Massachusetts Institute of Technology",
+          "href": "",
+          "meta": "Cambridge, MA",
+          "text": "",
+          "bullets": [
+            "Master of Engineering in CS/Economics/Data Science | GPA: 4.8/5.0 | 2023–2024",
+            "Bachelor of Science in Mathematics and in CS/Economics/Data Science | GPA: 4.9/5.0 | 2019–2024"
+          ]
+        },
+        {
+          "group": "",
+          "title": "Coursework",
+          "href": "",
+          "meta": "",
+          "text": "",
+          "bullets": [
+            "**Mathematics:** Statistics, Discrete Mathematics, Functional Analysis, Real Analysis, Abstract Algebra, Topology",
+            "**Economics:** Econometrics, Labor Economics, Game Theory, Public Finance & Policy, Microeconomics",
+            "**Computer Science/Data Science:** Optimization, Machine Learning, Analysis of Algorithms, Python Programming"
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Work",
+      "entries": [
+        {
+          "group": "",
+          "title": "Analyst | Quantitative Economic Solutions",
+          "href": "",
+          "meta": "Boston, MA · August 2024 –",
+          "text": "Economics Consulting Analyst. (Incoming)",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Research Assistant | MIT Department of Economics",
+          "href": "",
+          "meta": "Cambridge, MA · June 2022 – May 2024",
+          "text": "",
+          "bullets": [
+            "Work with Prof. Joshua Angrist on a paper on Ph.D. student productivity. Create and design datasets by web scraping, merging, and cleaning raw data with Python, STATA, and Generative AI (ChatGPT) API.",
+            "Worked with Prof. Dave Donaldson on a paper on the effect of local policies on different Chinese industrial sectors. Scraped and cleaned data using Python and STATA. Reviewed relevant literature in Chinese and English."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Research Assistant | MIT Sloan School of Management",
+          "href": "",
+          "meta": "Cambridge, MA · May 2022 – December 2022",
+          "text": "",
+          "bullets": [
+            "Worked with Prof. Basima Tewfik towards a paper on imposter syndrome in workforce. Created an advanced survey with chat box simulations using HTML/CSS/JavaScript. Recruited participants and ran 20 in-person randomized trials.",
+            "Won MIT 2023 Outstanding UROP Student Award (awarded to <10 MIT students per year) with this RA-ship."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Research Assistant | MIT Teaching Systems Lab",
+          "href": "",
+          "meta": "Cambridge, MA · September 2021 – August 2022",
+          "text": "Second-authored paper on improving DEI aspects in automated teacher training programs with machine learning, published in the Association for Computing Machinery in June 2022. Created and verified word classifications and ran statistical analyses.",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Teaching Assistant | MIT",
+          "href": "",
+          "meta": "Cambridge, MA · September 2020 – May 2024",
+          "text": "",
+          "bullets": [
+            "In the Department of Economics: Econometrics (Spring 2023), Game Theory (Fall 2023), Econometrics (Spring 2024)",
+            "In the Department of Mathematics: Accelerated Calculus/Multivariable Calculus (Fall 2021); Real Analysis (Fall 2020)",
+            "Taught weekly recitation lectures. Held weekly office hours. Created recitation material and exam questions. Graded problem sets and exams. Managed course logistics."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Teaching Assistant, Program Manager | MathILy-Er",
+          "href": "",
+          "meta": "Remote · June 2021 – July 2021",
+          "text": "Teaching assistant and program administrator at MathILy-Er, a 5-week intensive math summer program for gifted high school students. Create and comment on problem sets. Teach 3 college-level topics in linear algebra, number theory, and combinatorics.",
+          "bullets": []
+        }
+      ]
+    },
+    {
+      "heading": "Leadership",
+      "entries": [
+        {
+          "group": "",
+          "title": "Co-president + various | MIT McCormick Hall Student Government",
+          "href": "",
+          "meta": "September 2019 – December 2022",
+          "text": "",
+          "bullets": [
+            "Led a team of 30+ students to organize campus-wide events, manage facility breakdowns, and communicate needs for 250+ McCormick House residents. Organized dorm-wide mural-painting, music jam sessions, and design dorm-wide merchandize.",
+            "Worked with MIT administration and Undergraduate Association to create campus-wide policies supporting students in COVID."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Lead Artist, Co-Publicity Chair | MIT Ring Committee 2023",
+          "href": "",
+          "meta": "April 2020 – October 2021",
+          "text": "",
+          "bullets": [
+            "Worked in an elected team of 12 students (out of 1100) to draft, design, and market the MIT 2023 class ring in collaboration with the jewelry company Herff Jones.",
+            "Coordinated and created promotional media contents across Instagram, FaceBook, ... reaching 2000+ people."
+          ]
+        },
+        {
+          "group": "",
+          "title": "Co-President, Design Chair | The Borderline @ MIT",
+          "href": "",
+          "meta": "September 2019 – May 2023",
+          "text": "Organized a 40-student team to create a 30-feet by 7-feet augmented-reality mural installed at the MIT Welcome Center with MIT Admissions in 2021. Coordinate mural painting procedures in a 200-ft tunnel at MIT for 4 years.",
+          "bullets": []
+        }
+      ]
+    },
+    {
+      "heading": "Honors",
+      "entries": [
+        {
+          "group": "",
+          "title": "",
+          "href": "",
+          "meta": "",
+          "text": "",
+          "bullets": [
+            "Phi Beta Kappa (MIT, 2023)",
+            "MIT 2023 Outstanding Undergraduate Research Opportunity Project Student Award",
+            "Laya and Jerome B. Wiesner Student Art Award (2023)",
+            "Tau Beta Pi Engineering Honors Society",
+            "National Honors Society, National Merit Scholar Semifinalist"
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Skills",
+      "entries": [
+        {
+          "group": "",
+          "title": "",
+          "href": "",
+          "meta": "",
+          "text": "",
+          "bullets": [
+            "Python, Java",
+            "STATA, R",
+            "HTML, CSS, JavaScript",
+            "Microsoft Suites",
+            "Mandarin (native speaker)"
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Publications",
+      "entries": [
+        {
+          "group": "",
+          "title": "The Effects of State-level Mandatory Advanced Placement Curriculum Policies on AP Participation and Performance (2024)",
+          "href": "",
+          "meta": "Tianyuan Zheng · [PDF](https://drive.google.com/file/d/1eASlSJ2jdQmGhr6uaI5sS0Her8RYtOcI/view?usp=sharing)",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "Integrating Dynamic Supports into an Equity Teaching Simulation to Promote Equity Mindsets (2022)",
+          "href": "",
+          "meta": "G.R. Marvez, Tianyuan Zheng, Joshua Littenberg-Tobias, Garron Hillaire, Sara O'Brien, et al. · [Link](https://dspace.mit.edu/handle/1721.1/146491)",
+          "text": "",
+          "bullets": []
+        },
+        {
+          "group": "",
+          "title": "12岁那年的21个夏日 (2018)",
+          "href": "",
+          "meta": "Tianyuan Zheng · translation: 21 Summer Days of A 12-year-old",
+          "text": "",
+          "bullets": []
+        }
+      ]
+    }
+  ]
+}

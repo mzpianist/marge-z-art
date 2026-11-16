@@ -1,0 +1,52 @@
+[
+  {
+    "name": "electric blue / lemon",
+    "bg": "#1b2bff",
+    "fg": "#ffe94a"
+  },
+  {
+    "name": "hot pink / ink violet",
+    "bg": "#ff4fa3",
+    "fg": "#1a0b2e"
+  },
+  {
+    "name": "sunflower / ultramarine",
+    "bg": "#ffd60a",
+    "fg": "#2b00b5"
+  },
+  {
+    "name": "purple / lime",
+    "bg": "#5b1fd6",
+    "fg": "#c8ff3d"
+  },
+  {
+    "name": "orange / midnight",
+    "bg": "#ff5a1f",
+    "fg": "#1b0a3c"
+  },
+  {
+    "name": "forest / bubblegum",
+    "bg": "#0b3d2e",
+    "fg": "#ff9ecf"
+  },
+  {
+    "name": "kelly green / plum",
+    "bg": "#00c46a",
+    "fg": "#14002b"
+  },
+  {
+    "name": "red / cream",
+    "bg": "#c8001f",
+    "fg": "#fff1c9"
+  },
+  {
+    "name": "cyan / aubergine",
+    "bg": "#00b8f5",
+    "fg": "#2a0a4a"
+  },
+  {
+    "name": "plum / coral",
+    "bg": "#14002b",
+    "fg": "#ff6a3d"
+  }
+]

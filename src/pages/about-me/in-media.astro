@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import press from "../../content/press.json";
+import { image } from "../../content/images";
+---
+
+<Base title={press.title} description="Press and media featuring Margaret Zheng and Wide Tim.">
+  <header class="page-title">
+    <h1>{press.title}</h1>
+  </header>
+
+  <section class="band">
+    <div class="cards">
+      {
+        press.items.map((item) => {
+          const img = image(item.image);
+          return (
+            <a class="card" href={item.href}>
+              {img && <Image src={img} alt="" width={640} />}
+              <div>
+                <span class="src">{item.source}</span>
+                <h3>{item.title}</h3>
+                {item.blurb && <p>{item.blurb}</p>}
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  {
+    press.videoId && (
+      <section class="band" data-shift>
+        {press.videoHeading && <h2>{press.videoHeading}</h2>}
+        <div class="frame" style="max-width: 900px">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${press.videoId}`}
+            title={`${press.videoHeading || "Video"} (YouTube video)`}
+            style="aspect-ratio: 16 / 9"
+            loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          />
+        </div>
+      </section>
+    )
+  }
+</Base>

@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../content/site";
+import home from "../content/home.json";
+import shop from "../content/shop.json";
+
+// The Shop row says "(soon)" until the shop has a URL.
+const rows = home.links
+  .filter((l) => l.label && l.href)
+  .map((l) => ({ ...l, note: l.note || (l.href === "/shop" && !shop.url ? "soon" : "") }));
+const loop = [...site.tagline, ...site.tagline, ...site.tagline, ...site.tagline];
+---
+
+<Base cycle>
+  <section class="hero">
+    <h1>{home.heading.map((line) => <span>{line}</span>)}</h1>
+    <ul class="places">
+      {home.places.map((place) => <li>{place}</li>)}
+    </ul>
+  </section>
+
+  <div class="marquee" aria-label={site.tagline.join(" / ")}>
+    <div class="marquee__track" aria-hidden="true">
+      {loop.map((word) => <span>{word} /</span>)}
+    </div>
+  </div>
+
+  <ul class="rows">
+    {
+      rows.map((row) => (
+        <li>
+          <a href={row.href}>
+            <span>
+              {row.label} {row.note && <small>({row.note})</small>}
+            </span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>

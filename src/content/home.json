@@ -1,0 +1,48 @@
+{
+  "heading": [
+    "Margaret",
+    "Zheng"
+  ],
+  "places": [
+    "Qingdao, China",
+    "Mobile, AL · SPS ’19",
+    "Boston, MA · MIT Class of 2023, MEng ’24"
+  ],
+  "links": [
+    {
+      "label": "About me",
+      "href": "/about-me",
+      "note": ""
+    },
+    {
+      "label": "Art",
+      "href": "/things-i-do/art",
+      "note": ""
+    },
+    {
+      "label": "Wide Tim",
+      "href": "https://www.widetim.com/",
+      "note": "widetim.com"
+    },
+    {
+      "label": "Music",
+      "href": "/things-i-do/music",
+      "note": ""
+    },
+    {
+      "label": "Resume",
+      "href": "/about-me/professional-resume",
+      "note": ""
+    },
+    {
+      "label": "Shop",
+      "href": "/shop",
+      "note": ""
+    },
+    {
+      "label": "Other projects",
+      "href": "/things-i-do/other-projects",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Contact",
+  "rows": [
+    {
+      "label": "Email",
+      "text": "margezart@gmail.com",
+      "href": "mailto:margezart@gmail.com"
+    },
+    {
+      "label": "Instagram",
+      "text": "@marge_z_art",
+      "href": "https://www.instagram.com/marge_z_art/"
+    }
+  ]
+}

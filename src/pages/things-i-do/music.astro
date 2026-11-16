@@ -1,0 +1,55 @@
+---
+import Base from "../../layouts/Base.astro";
+import Buttons from "../../components/Buttons.astro";
+import music from "../../content/music.json";
+---
+
+<Base title={music.title} description="Music by Margaret Zheng: piano, songwriting, a cappella arranging and production.">
+  <header class="page-title">
+    <h1>{music.title}</h1>
+    {music.intro && <p>{music.intro}</p>}
+  </header>
+
+  <section class="band split">
+    <div>
+      {music.lead && <p class="big">{music.lead}</p>}
+      <ol class="chain">
+        {music.steps.map((s) => <li>{s}</li>)}
+      </ol>
+    </div>
+    <div>
+      {
+        music.spotifyEmbed && (
+          <div class="frame">
+            <iframe
+              src={music.spotifyEmbed}
+              title="Margaret Zheng on Spotify"
+              height="352"
+              loading="lazy"
+              allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            />
+          </div>
+        )
+      }
+      {music.outro && <p style="margin-top: 1.6rem">{music.outro}</p>}
+      <Buttons buttons={music.buttons} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .chain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .chain li {
+    padding: 0.9rem 0;
+    border-top: var(--line) solid var(--fg);
+    font-weight: 600;
+  }
+  .chain li:not(:last-child)::after {
+    content: " →";
+    font-weight: 800;
+  }
+</style>

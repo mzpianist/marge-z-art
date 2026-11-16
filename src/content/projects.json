@@ -1,0 +1,16 @@
+{
+  "title": "Other projects",
+  "items": [
+    {
+      "label": "Mood lighting",
+      "note": "a colour timer for your screen",
+      "href": "/things-i-do/mood-lighting"
+    },
+    {
+      "label": "Wide Tim",
+      "note": "widetim.com",
+      "href": "https://www.widetim.com/"
+    }
+  ],
+  "note": "Something exciting coming soon. Thanks for your patience!"
+}

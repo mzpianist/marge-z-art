@@ -1,0 +1,92 @@
+{
+  "title": "Art",
+  "intro": "I make art! Here are some TL;DR's of the projects/involvements that I am most proud of.",
+  "projects": [
+    {
+      "name": "Wide Tim",
+      "lead": "",
+      "text": "At MIT, I'm best known as the creator of Wide Tim, a plump, joyful beaver that double majors in eating and sleeping @ MIT, goes to all your friendly neighborhood events, and collaborates with MIT student organizations and offices to promote wellness, share positivity, & spread love. Since Wide Tim's birth on February 13th, 2021, he has collaborated with 75+ MIT entities, been in the news several times, scored a few awards/shows, and become a beloved character in and out of the MIT community.\n\nVisit his own site @ widetim.com and follow @wide_tim on Instagram to see what he's up to!!",
+      "buttons": [
+        {
+          "label": "widetim.com",
+          "href": "https://www.widetim.com/"
+        },
+        {
+          "label": "@wide_tim",
+          "href": "https://www.instagram.com/wide_tim/"
+        }
+      ],
+      "images": [
+        {
+          "image": "wide-welcome.jpg",
+          "alt": "A Wide Welcome: painting of Wide Tim waving inside a red heart, with the MIT dome and two small snow figures",
+          "caption": "“A Wide Welcome”, acrylic and wall paint on wood panel, MIT Welcome Center"
+        }
+      ]
+    },
+    {
+      "name": "@big_dijkstra_energy",
+      "lead": "[@big_dijkstra_energy](https://www.instagram.com/big_dijkstra_energy/) is an Instagram comic handle co-created in December 2020 by Gloria L. '22, Audrey Cui '24, Penny Brant '24, and myself - then all undergraduates at MIT, united by our common love for artistic expression and science.",
+      "text": "Taking on advanced concepts from college-level STEM courses with a humorous spin, we created hundreds of original STEM-inspired, family-friendly pick-up lines to bring levity to the MIT and STEM community. Amidst the height of COVID, we produced and distributed 3000 Valentine's Day cards to undergraduates returning to campus in Spring 2021 with the help of MIT MindHandHeart (Audrey wrote a very heartfelt blog about this experience - [read here](https://mindhandheart.mit.edu/blog/bad-puns-good-times-big-dijkstra-energy)!).\n\nIn addition, we have also held two successful pick-up line tournaments open to MIT undergraduates; our artworks have been featured on MIT's Facebook page, @mitadmissions, and the 2021 math symposium at Brown University.",
+      "buttons": [
+        {
+          "label": "@big_dijkstra_energy",
+          "href": "https://www.instagram.com/big_dijkstra_energy/"
+        }
+      ],
+      "images": []
+    },
+    {
+      "name": "MIT Ring Committee 2023",
+      "lead": "",
+      "text": "As a part of MIT's unique class ring tradition, in their first-year spring, each class year elects a 12-member committee known as the Ring Committee (RingComm) to spend the next year designing and marketing a class ring (lovingly dubbed \"Brass Rat\") unique to their class.\n\nI served as an artist and a co-publicity chair of RingComm 2023. My role-specific responsibilities included designing the 2023 ring logo, working with representatives at Herff Jones to finalize ring design drafts, designing promotional material for the Ring Premiere (where the design makes its first debut) and Ring Delivery (the grand ball where students receive their rings), and managing active RingComm social media accounts.",
+      "buttons": [
+        {
+          "label": "brassrat2023.mit.edu",
+          "href": "https://brassrat2023.mit.edu/"
+        }
+      ],
+      "images": []
+    },
+    {
+      "name": "The Borderline @ MIT",
+      "lead": "[The Borderline @ MIT](http://borderline.mit.edu/) is MIT's augmented-reality mural club that paints the 200-ft mural tunnel in MIT, murals at MIT's Banana Lounge, and various public art/animation projects at MIT and in the Boston area.",
+      "text": "I joined The Borderline's executive board in my first semester, producing 4 murals and 2 animations during my involvement. In Spring 2020, I contributed to Borderline's Tunnel66 project, an art initiative that strived to keep the MIT community connected through art during COVID-19. (read more about it [here](https://studentlife.mit.edu/news/borderline-tunnels-virtual-twist))\n\nI also served as Borderline's co-president in 2021, during which I led the Welcome Center Storywall project - a 30 by 7 feet installation on the first floor of MIT's new Welcome Center - under significant COVID restrictions. Borderline selected over 40 student artists and arranged logistics to help students finish their artwork. The installation would stay at MIT's Welcome Center for a year before moving to MIT's Atlas Center (E17) semi-permanently.",
+      "buttons": [],
+      "images": [
+        {
+          "image": "storywall.jpg",
+          "alt": "The Borderline Mural Project storywall installed along a corridor wall",
+          "caption": ""
+        },
+        {
+          "image": "emoji-hourglass.png",
+          "alt": "Emoji hourglass mural: an hourglass filled with yellow emoji faces, painted in the Borderline tunnel",
+          "caption": ""
+        },
+        {
+          "image": "hourglass.gif",
+          "alt": "Animated hourglass illustration",
+          "caption": ""
+        },
+        {
+          "image": "room.gif",
+          "alt": "Animated illustration of a dorm room with a girl playing keyboard",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "name": "@marge_z_art",
+      "lead": "My personal Instagram is an art account!",
+      "text": "Instead of posting pictures of my life, I usually draw pictures of my life and post them :D",
+      "buttons": [
+        {
+          "label": "@marge_z_art",
+          "href": "https://www.instagram.com/marge_z_art/"
+        }
+      ],
+      "images": []
+    }
+  ]
+}

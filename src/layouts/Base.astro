@@ -1,0 +1,137 @@
+---
+import "@fontsource-variable/bricolage-grotesque";
+import "../styles/global.css";
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+import { site, nav } from "../content/site";
+import { palettes } from "../content/palettes";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Slowly rotate through the palettes on its own (used on the home page). */
+  cycle?: boolean;
+}
+
+const { title, description = "Margaret Zheng — art / music / math / econ / writing / ?", cycle = false } = Astro.props;
+const fullTitle = title ? `${title} — ${site.name}` : site.name;
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isCurrent = (href: string) => path === href || path.startsWith(href + "/");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Colour engine. Runs before first paint so the page never flashes.
+         Every page opens in the colours the last page ended on, then slides
+         to the next palette; sections marked data-shift move it on again as
+         you scroll, and the Colors button jumps ahead on demand. -->
+    <script is:inline define:vars={{ palettes, cycle }}>
+      const root = document.documentElement;
+      const n = palettes.length;
+      const KEY = "mz-palette";
+      let base;
+      try {
+        base = parseInt(sessionStorage.getItem(KEY), 10);
+      } catch {}
+      if (!(base >= 0 && base < n)) base = Math.floor(Math.random() * n);
+      let offset = 0;
+
+      const paint = () => {
+        const i = (base + offset) % n;
+        root.style.setProperty("--bg", palettes[i][0]);
+        root.style.setProperty("--fg", palettes[i][1]);
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", palettes[i][0]);
+        try {
+          sessionStorage.setItem(KEY, String(i));
+        } catch {}
+      };
+      const step = () => {
+        base = (base + 1) % n;
+        paint();
+      };
+      paint();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Arrive in the old colours, then shift.
+        requestAnimationFrame(() => requestAnimationFrame(step));
+
+        document.querySelector("[data-shuffle]")?.addEventListener("click", step);
+
+        const sections = [...document.querySelectorAll("[data-shift]")];
+        if (sections.length && "IntersectionObserver" in window) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (!e.isIntersecting) continue;
+                offset = sections.indexOf(e.target) + 1;
+                paint();
+              }
+            },
+            { rootMargin: "-45% 0px -45% 0px" },
+          );
+          sections.forEach((s) => io.observe(s));
+          // Back at the very top → back to the page's opening colours.
+          addEventListener(
+            "scroll",
+            () => {
+              if (scrollY < 40 && offset !== 0) {
+                offset = 0;
+                paint();
+              }
+            },
+            { passive: true },
+          );
+        }
+
+        if (cycle && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          setInterval(() => {
+            if (!document.hidden) step();
+          }, 5000);
+        }
+      });
+    </script>
+    <meta name="theme-color" content={palettes[0][0]} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <Image src={logo} alt="" width={74} height={74} />
+        {site.short}
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        {
+          nav.map((item) => (
+            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <button class="shuffle" type="button" data-shuffle title="Change the colours">Colors ↻</button>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <span>{site.name} © 2017 – {new Date().getFullYear()}</span>
+      <nav aria-label="Social">
+        {site.socials.map((s) => <a href={s.href}>{s.label}</a>)}
+        <a href={`mailto:${site.email}`}>Email</a>
+      </nav>
+    </footer>
+  </body>
+</html>
